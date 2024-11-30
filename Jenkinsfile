@@ -1,27 +1,23 @@
 pipeline {
     agent any
+
     stages {
-        stage('Checkout') {
+        stage('Hello') {
             steps {
-                git branch: 'master', url: 'https://github.com/paulprinz/hello-world.git'
+                echo 'Hello World'
             }
         }
-        stage('Build') {
+        stage("Checkout") {
             steps {
-                sh 'mvn clean install'
+                checkout scm
             }
         }
-        stage('Test') {
+        stage("Docker Build") {
             steps {
-                sh 'mvn test'
-            }
-        }
-        stage('Deploy to OpenShift') {
-            steps {
-                ansiblePlaybook(
-                    inventory: 'inventory',
-                    playbook: 'deploy.yml'
-                )
+              sh '''
+                  #oc start-build --from-build=<build_name>
+                  oc start-build -F red-api --from-dir=./api/
+              '''
             }
         }
     }

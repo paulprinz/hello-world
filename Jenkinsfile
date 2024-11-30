@@ -3,7 +3,7 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git branch: 'master', url: 'https://github.com/your-repo.git'
+                git branch: 'master', url: 'https://github.com/paulprinz/hello-world.git'
             }
         }
         stage('Build') {
